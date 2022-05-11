@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,21 +8,12 @@ namespace Minesweeper
 {
     internal class Mines
     {
-        struct CellStruct
-        {
-            public bool hasFlag;
-            public bool hasMine;
-            public bool isUncovered;
-            public int neighbourBombs;
-        }
-        const int boardSize = 10;
+        CellStruct structure = new CellStruct();
         CellStruct[,] cell = new CellStruct[boardSize + 2, boardSize + 2];
-        bool gameOver;
-        public virtual void MinePlanter() // virtual so that it could be inherited from
+        const int boardSize = 10;
+        public virtual void MinePlanter()
         {
-            //Program E = new Program();
-            //E.CellStruct();
-            //CellStruct[,] cell = new CellStruct[boardSize + 2, boardSize + 2];
+
             Random rand = new Random();
             bool[] n = new bool[100];
             for (int x = 0; x < 90; x++)
@@ -42,8 +33,8 @@ namespace Minesweeper
             }
             for (int x = 0; x < 100; x++)
             {
-                int column = x % 10;
-                int row = x / 10;
+                int column = (x % 10)+1;
+                int row = (x / 10) + 1;
                 cell[row, column].hasMine = n[x];
             }
             for (int x = 0; x < 100; x++)
@@ -62,43 +53,50 @@ namespace Minesweeper
                 }
             }
         }
-    }
-    class Draw : Mines
-    {
-        struct CellStruct // copied as it's inaccessible due to its protection level 
+       /* public void CountNeighbours()
         {
-            public bool hasFlag;
-            public bool hasMine;
-            public bool isUncovered;
-            public int neighbourBombs;
-        }
-        const int boardSize = 10;
-        CellStruct[,] cell = new CellStruct[boardSize + 2, boardSize + 2];
-        bool gameOver;
-        public virtual void MinePlanter()
-        {
-            //const int boardSize = 10; // 'Mines.boardSize' is inaccessible due to its protection level 
-            //  CellStruct[,] cell = new CellStruct[boardSize + 2, boardSize + 2]; /
-            
-            for (int row = 0; row <boardSize; row++)
+            for (int row = 0; row < boardSize; row++)
             {
                 for (int column = 0; column < boardSize; column++)
                 {
-                    if (cell[row, column].hasFlag)
+                    int mineCount = 0;
+                    if (cell[row - 1, column - 1].hasMine)
                     {
-                        Console.Write("F");
+                        mineCount++;
                     }
-                    else if (cell[row, column].isUncovered)
+                    if (cell[row - 1, column].hasMine)
                     {
-                        Console.Write("#");
+                        mineCount++;
                     }
-                    else
+                    if (cell[row - 1, column + 1].hasMine)
                     {
-                        Console.Write(mineCount);
+                        mineCount++;
                     }
+                    if (cell[row, column - 1].hasMine)
+                    {
+                        mineCount++;
+                    }
+                    if (cell[row, column + 1].hasMine)
+                    {
+                        mineCount++;
+                    }
+                    if (cell[row + 1, column - 1].hasMine)
+                    {
+                        mineCount++;
+                    }
+                    if (cell[row + 1, column].hasMine)
+                    {
+                        mineCount++;
+                    }
+                    if (cell[row + 1, column + 1].hasMine)
+                    {
+                        mineCount++;
+                    }
+                    cell[row, column].neighbourBombs = mineCount;
                 }
             }
-        }
-       
+        } */
     }
+
 }
+
