@@ -13,10 +13,9 @@ namespace Minesweeper
         const int boardSize = 10;
 
         public Mines()
+
         {
             int count = 12;
-
-            
             for (int i = 0; i < count; i++)
             {
                 for (int j = 0; j < count; j++)
@@ -26,9 +25,9 @@ namespace Minesweeper
                 }
             }
         }
+
         public virtual void MinePlanter()
         {
-
             Random rand = new Random();
             bool[] HasMine = new bool[100];
             bool [] IsUncovered = new bool[100];
@@ -56,6 +55,7 @@ namespace Minesweeper
             {
                 int column = (x % 10)+1;
                 int row = (x / 10) + 1;
+
                 cells[row, column].hasMine = HasMine[x];
             }
             for (int x = 0; x < 100; x++)
@@ -124,4 +124,3 @@ namespace Minesweeper
     }
 
 }
-
