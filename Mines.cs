@@ -9,11 +9,24 @@ namespace Minesweeper
     internal class Mines
     {
         CellStruct structure = new CellStruct();
-        CellStruct[,] cell = new CellStruct[boardSize + 2, boardSize + 2];
+        CellStruct[,] cells = new CellStruct[boardSize + 2, boardSize + 2];
         const int boardSize = 10;
+
+        public Mines()
+        {
+            int count = 12;
+            for (int i = 0; i < count; i++)
+            {
+                for (int j = 0; j < count; j++)
+                {
+                    var cell = new CellStruct();
+                    cells[i,j] = cell;
+                }
+            }
+        }
+
         public virtual void MinePlanter()
         {
-
             Random rand = new Random();
             bool[] n = new bool[100];
             for (int x = 0; x < 90; x++)
@@ -35,7 +48,7 @@ namespace Minesweeper
             {
                 int column = (x % 10)+1;
                 int row = (x / 10) + 1;
-                cell[row, column].hasMine = n[x];
+                cells[row, column].hasMine = n[x];
             }
             for (int x = 0; x < 100; x++)
             {
@@ -99,4 +112,3 @@ namespace Minesweeper
     }
 
 }
-
