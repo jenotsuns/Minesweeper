@@ -31,7 +31,7 @@ namespace Minesweeper
             Random rand = new Random();
             bool[] HasMine = new bool[100];
             bool[] IsUncovered = new bool[100];
-            int [] NeighbourBombs = new int[100];
+            int[] NeighbourBombs = new int[100];
 
             //for (int x = 0; x < 90; x++)
             //{
@@ -69,7 +69,8 @@ namespace Minesweeper
                 for (int column = 1; column < boardSize; column++)
                 {
                     int mineCount = 0;
-                    
+
+
                     if (cells[row - 1, column - 1].hasMine)
                     {
                         mineCount++;
@@ -105,12 +106,7 @@ namespace Minesweeper
 
                     cells[row, column].neighbourBombs = mineCount;
 
-                }
-            }
-            for (int row = 1; row < boardSize; row++)
-            {
-                for (int column = 1; column < boardSize; column++)
-                    if (!cells[row, column].isUncovered) //change to false afterwards
+                    if (cells[row, column].isUncovered == true) //change to false afterwards
                     {
                         Console.Write("a");
                     }
@@ -120,88 +116,112 @@ namespace Minesweeper
                     }
                     else
                     {
-                        Console.Write(" {0}", cells[row, column].neighbourBombs);
-
+                        Console.Write($"{cells[row, column].neighbourBombs}");
+                        //Neighbors neighbors = new Neighbors();
+                        //neighbors.CountNeighbours();
+                        //Console.Write("."); 
+                    }
+                    if ((column + 1) % 10 == 0)
+                    {
                         Console.WriteLine();
                     }
-            }
-            for (int x = 0; x < 100; x++)
-            {
-                if (IsUncovered[x] == true) //change to false afterwards
-                {
-                    Console.Write("a");
-                }
-                else if (HasMine[x])
-                {
-                    Console.Write("■");
-                }
-                else
-                {
-                    
-                    //Neighbors neighbors = new Neighbors();
-                    //neighbors.CountNeighbours();
-                    Console.Write("."); 
-                }
-                
-                if ((x + 1) % 10 == 0)
-                {
-                    Console.WriteLine();
                 }
             }
-        }
-        //public void CountNeighbours()
-        //{
-        //    for (int row = 1; row < boardSize; row++)
-        //    {
-        //        for (int column = 1; column < boardSize; column++)
-        //        {
-        //            int mineCount = 0;
-        //            if (cells[row - 1, column - 1].hasMine)
-        //            {
-        //                mineCount++;
-        //            }
-        //            if (cells[row - 1, column].hasMine)
-        //            {
-        //                mineCount++;
-        //            }
-        //            if (cells[row - 1, column + 1].hasMine)
-        //            {
-        //                mineCount++;
-        //            }
-        //            if (cells[row, column - 1].hasMine)
-        //            {
-        //                mineCount++;
-        //            }
-        //            if (cells[row, column + 1].hasMine)
-        //            {
-        //                mineCount++;
-        //            }
-        //            if (cells[row + 1, column - 1].hasMine)
-        //            {
-        //                mineCount++;
-        //            }
-        //            if (cells[row + 1, column].hasMine)
-        //            {
-        //                mineCount++;
-        //            }
-        //            if (cells[row + 1, column + 1].hasMine)
-        //            {
-        //                mineCount++;
-        //            }
-        //            cells[row, column].neighbourBombs = mineCount;
+            //for (int row = 1; row < boardSize; row++)
+            //{
+            //    for (int column = 1; column < boardSize; column++)
+            //        if (!cells[row, column].isUncovered) //change to false afterwards
+            //        {
+            //            Console.Write("a");
+            //        }
+            //        else if (cells[row, column].hasMine)
+            //        {
+            //            Console.Write("■");
+            //        }
+            //        else
+            //        {
+            //            Console.Write(" {0}", cells[row, column].neighbourBombs);
 
-        //        }
-        //    }
-        //        for (int row = 1; row < boardSize; row++)
-        //        {
-        //            for (int column = 1; column < boardSize; column++)
-        //                Console.Write(" {0}", cells[row, column].neighbourBombs);
+            //            Console.WriteLine();
+            //        }
+            //}
+            //    for (int x = 0; x < 100; x++)
+            //    {
+            //        if (IsUncovered[x] == true) //change to false afterwards
+            //        {
+            //            Console.Write("a");
+            //        }
+            //        else if (HasMine[x])
+            //        {
+            //            Console.Write("■");
+            //        }
+            //        else
+            //        {
+            //            Console.Write($"{NeighbourBombs[x]}");
+            //            //Neighbors neighbors = new Neighbors();
+            //            //neighbors.CountNeighbours();
+            //            //Console.Write("."); 
+            //        }
 
-        //            Console.WriteLine();
-        //        }
-        //    }
+            //        if ((x + 1) % 10 == 0)
+            //        {
+            //            Console.WriteLine();
+            //        }
+            //    }
+            //}
+            //public void CountNeighbours()
+            //{
+            //    for (int row = 1; row < boardSize; row++)
+            //    {
+            //        for (int column = 1; column < boardSize; column++)
+            //        {
+            //            int mineCount = 0;
+            //            if (cells[row - 1, column - 1].hasMine)
+            //            {
+            //                mineCount++;
+            //            }
+            //            if (cells[row - 1, column].hasMine)
+            //            {
+            //                mineCount++;
+            //            }
+            //            if (cells[row - 1, column + 1].hasMine)
+            //            {
+            //                mineCount++;
+            //            }
+            //            if (cells[row, column - 1].hasMine)
+            //            {
+            //                mineCount++;
+            //            }
+            //            if (cells[row, column + 1].hasMine)
+            //            {
+            //                mineCount++;
+            //            }
+            //            if (cells[row + 1, column - 1].hasMine)
+            //            {
+            //                mineCount++;
+            //            }
+            //            if (cells[row + 1, column].hasMine)
+            //            {
+            //                mineCount++;
+            //            }
+            //            if (cells[row + 1, column + 1].hasMine)
+            //            {
+            //                mineCount++;
+            //            }
+            //            cells[row, column].neighbourBombs = mineCount;
 
-       
+            //        }
+            //    }
+            //        for (int row = 1; row < boardSize; row++)
+            //        {
+            //            for (int column = 1; column < boardSize; column++)
+            //                Console.Write(" {0}", cells[row, column].neighbourBombs);
+
+            //            Console.WriteLine();
+            //        }
+            //    }
+
+
 
             //} 
 
@@ -238,7 +258,7 @@ namespace Minesweeper
             //        }
 
 
-             }
-            }
-
+        }
+    }
+}
         
