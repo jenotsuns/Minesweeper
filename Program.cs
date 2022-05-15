@@ -7,43 +7,17 @@ using System.Threading.Tasks;
 
 namespace Minesweeper
 {
-    internal class Program
+    public class Program // bija internal class Program
     {
         static void Main(string[] args)
         {
             Mines mines = new Mines();
+            //mines.DrawPlayBoard();
             mines.MinePlanter();
-            Program program = new Program();
-            program.CoordinateInput();
+            
         }
-        /* public override void MinePlanter() // ??
-         {
-             for (int row = 0; row < boardSize; row++)
-             {
-                 for (int column = 0; column < boardSize; column++)
-                 {
-                     if (cell[row, column].hasFlag)
-                     {
-                         Console.Write("F");
-                     }
-                     else if (cell[row, column].isUncovered)
-                     {
-                         Console.Write("#");
-                     }
-                     else
-                     {
-                        // Console.Write(mineCount); // not working
-                     }
-                 }
-             }
-         } */
-        public void CoordinateInput()
-        {
-            Console.WriteLine($"\nEnter the coordinates (letter + number): ");
-            string playerInput = Console.ReadLine();
-            Console.WriteLine($"You entered: {playerInput}");
-        }
-        static bool again()
+        //THIS WILL BE FULLY CHANGED
+       /* static bool again()
         {
             while (true)
             {
@@ -54,6 +28,7 @@ namespace Minesweeper
                 // + needs to repeat the printing loop
             }
         }
+       */
     }
 
 }
