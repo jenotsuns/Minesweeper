@@ -13,9 +13,15 @@ namespace Minesweeper
         {
             Mines mines = new Mines();
             mines.MinePlanter();
-            Program program = new Program();
-            program.CoordinateInput();
+            //Program program = new Program();
+            //program.CoordinateInput();
+            //Neighbors neighbors = new Neighbors();
+            //neighbors.CountNeighbours();
+
         }
+
+
+
         /* public override void MinePlanter() // ??
          {
              for (int row = 0; row < boardSize; row++)
@@ -43,7 +49,7 @@ namespace Minesweeper
             string playerInput = Console.ReadLine();
             Console.WriteLine($"You entered: {playerInput}");
         }
-        static bool again()
+        static bool Again()
         {
             while (true)
             {
