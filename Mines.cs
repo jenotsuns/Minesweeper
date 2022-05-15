@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace Minesweeper
 {
-    internal class Mines
+    class Mines
     {
         CellStruct structure = new CellStruct();
         CellStruct[,] cells = new CellStruct[boardSize + 2, boardSize + 2];
-        const int boardSize = 10;
+        const int boardSize = 11;
 
         public Mines()
 
@@ -28,14 +28,13 @@ namespace Minesweeper
 
         public virtual void MinePlanter()
         {
+            // RANDOM BOMB 10% PLANTER
             Random rand = new Random();
             bool[] HasMine = new bool[100];
-            bool [] IsUncovered = new bool[100];
-            //for (int x = 0; x < 90; x++)
-            //{
-            //    HasMine[x] = false;
-            //}
-         
+            bool[] IsUncovered = new bool[100];
+            int[] NeighbourBombs = new int[100];
+
+
             for (int x = 90; x < 100; x++)
             {
                 HasMine[x] = true;
@@ -51,40 +50,30 @@ namespace Minesweeper
                 HasMine[x] = HasMine[pos];
                 HasMine[pos] = save;
             }
-            for (int x = 0; x < 100; x++)
-            {
-                int column = (x % 10)+1;
-                int row = (x / 10) + 1;
 
-                cells[row, column].hasMine = HasMine[x];
-            }
-            for (int x = 0; x < 100; x++)
+            int countForHasMines = 0;
+
+            for (int x = 1; x < 11; x++)
             {
-                if (IsUncovered[x] == false)
-                {
-                    Console.Write("a");
-                }
-                else if (HasMine[x])
-                {
-                    Console.Write("■");
-                }
-                else
-                {
-                    Console.Write("."); //■
-                }
-                if ((x + 1) % 10 == 0)
-                {
-                    Console.WriteLine();
+                for(int y = 1; y < 11; y++) { 
+
+                cells[x, y].hasMine = HasMine[countForHasMines];
+                cells[x, y].isUncovered = IsUncovered[countForHasMines];
+                cells[x, y].neighbourBombs = NeighbourBombs[countForHasMines];
+                    countForHasMines++;
                 }
             }
-        }
-      public void CountNeighbours()
-        {
-            for (int row = 0; row < boardSize; row++)
+            Console.Write(" | ");
+
+
+        //NEIGHBOURING MINE COUNTER
+            for (int row = 1; row < boardSize; row++)  //1
             {
-                for (int column = 0; column < boardSize; column++)
+                for (int column = 1; column < boardSize; column++) //1
                 {
                     int mineCount = 0;
+
+
                     if (cells[row - 1, column - 1].hasMine)
                     {
                         mineCount++;
@@ -117,10 +106,55 @@ namespace Minesweeper
                     {
                         mineCount++;
                     }
+
                     cells[row, column].neighbourBombs = mineCount;
+
+                }
+
+            }
+            PrintingTheBoard();
+        }
+        private void PrintingTheBoard()
+        {
+            for(int row = 0; row < boardSize; row++)
+            {
+                for(int column = 0; column < boardSize; column++)
+                {
+                    if (row == 0 && column > 0) 
+                    {
+                        Console.Write(column);
+                    }
+                    else if (row > 0 && column == 0)
+                    {
+                        Console.Write(row+ " ");
+                    }
+                    else if (cells[row, column].isUncovered == true) //change to false afterwards
+                    {
+                        Console.Write("?");
+                    }
+                    else if (cells[row, column].hasMine)
+                    {
+                        Console.Write("■");
+                    }
+                    else if (!(row == 0) && !(column == 0))
+                    {
+                        Console.Write($"{cells[row, column].neighbourBombs}");
+                    }
+                    Console.Write(" | ");
+
+                    if ((column + 1) % 11 == 0)
+                    {
+                        Console.WriteLine();
+                    }
+                }
+                if (row == 0)
+                {
+                    Console.WriteLine();
                 }
             }
-        } 
-    }
+            
+        }
+     }
+    
+ }
 
-}
