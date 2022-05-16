@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace Minesweeper
 {
-    class Mines
+    internal class Mines
     {
         CellStruct structure = new CellStruct();
         CellStruct[,] cells = new CellStruct[boardSize + 2, boardSize + 2];
-        const int boardSize = 11;
+        public const int boardSize = 10;
 
         public Mines()
 
@@ -28,231 +28,171 @@ namespace Minesweeper
 
         public virtual void MinePlanter()
         {
-            // RANDOM BOMB 10% PLANTER
             Random rand = new Random();
             bool[] HasMine = new bool[100];
-            bool[] IsUncovered = new bool[100];
-            int[] NeighbourBombs = new int[100];
-
-
-            for (int x = 90; x < 100; x++)
+            bool [] IsUncovered = new bool[100];
+            //for (int x = 0; x < 90; x++)
+            //{
+            //    HasMine[x] = false;
+            //}
+         
+            /*for (int x = 90; x < 100; x++)
             {
-                HasMine[x] = true;
+               HasMine[x] = true;
             }
             for (int x = 0; x < 100; x++)
             {
                 IsUncovered[x] = false;
+            }*/
+            for (int x = 0; x < 10; x++)
+            {
+                int pos = rand.Next(100);
+                //bool save = HasMine[x];
+                //HasMine[] = HasMine[pos];
+                //HasMine[pos] = save;
+                if (!HasMine[pos]) 
+                {
+                    HasMine[pos] = true;
+                }
+                else
+                {
+                    x--;
+                }
             }
             for (int x = 0; x < 100; x++)
             {
-                int pos = rand.Next(100);
-                bool save = HasMine[x];
-                HasMine[x] = HasMine[pos];
-                HasMine[pos] = save;
+                //int column = (x % 10)+1;
+                //int row = (x / 10) + 1;
+                int column = x % 10;
+                int row = x / 10;
+                cells[row, column].hasMine = HasMine[x];
             }
-
-            int countForHasMines = 0;
-
-            for (int x = 1; x < 11; x++)
+            Console.WriteLine("   0 1 2 3 4 5 6 7 8 9");
+            Console.WriteLine("   -------------------");
+            
+            Console.Write((char)65+" |");
+            for (int x = 0; x < 100; x++)
             {
-                for (int y = 1; y < 11; y++)
+                
+                if (IsUncovered[x] ==false)
                 {
-
-                    cells[x, y].hasMine = HasMine[countForHasMines];
-                    cells[x, y].isUncovered = IsUncovered[countForHasMines];
-                    cells[x, y].neighbourBombs = NeighbourBombs[countForHasMines];
-                    countForHasMines++;
+                    Console.Write("# ");
                 }
-            }
-            //Console.Write(" | ");
-
-
-            //NEIGHBOURING MINE COUNTER
-            for (int row = 1; row < boardSize; row++)  //1
-            {
-                for (int column = 1; column < boardSize; column++) //1
+                else if (HasMine[x])
                 {
-                    int mineCount = 0;
-
-
-                    if (cells[row - 1, column - 1].hasMine)
-                    {
-                        mineCount++;
-                    }
-                    if (cells[row - 1, column].hasMine)
-                    {
-                        mineCount++;
-                    }
-                    if (cells[row - 1, column + 1].hasMine)
-                    {
-                        mineCount++;
-                    }
-                    if (cells[row, column - 1].hasMine)
-                    {
-                        mineCount++;
-                    }
-                    if (cells[row, column + 1].hasMine)
-                    {
-                        mineCount++;
-                    }
-                    if (cells[row + 1, column - 1].hasMine)
-                    {
-                        mineCount++;
-                    }
-                    if (cells[row + 1, column].hasMine)
-                    {
-                        mineCount++;
-                    }
-                    if (cells[row + 1, column + 1].hasMine)
-                    {
-                        mineCount++;
-                    }
-
-                    cells[row, column].neighbourBombs = mineCount;
-
+                    Console.Write("@ ");
                 }
-
-            }
-            PrintingTheBoard();
-        }
-        private void PrintingTheBoard()
-        {
-            for (int row = 0; row < boardSize; row++)
-            {
-                for (int column = 0; column < boardSize; column++)
+                else
                 {
-                    if (row ==0 && column > 0)
-                    {
-                        Console.Write($" {column} ");
-                    }
-                    else if (row > 0 && column == 0)
-                    {
-                        Console.Write(row + "|"); // + " ");
-                    }
-                    else if (cells[row, column].isUncovered == false) //change to false afterwards
-                    {
-                        Console.Write(" ? ");
-                    }
-                    else if (cells[row, column].hasMine)
-                    {
-                        Console.Write(" ■ ");
-                    }
-                    else if (!(row == 0) && !(column == 0))
-                    {
-                        Console.Write($" {cells[row, column].neighbourBombs} ");
-                    }
-                    //Console.Write(" | ");
-
-                    if ((column + 1) % 11 == 0)
-                    {
-                        Console.WriteLine();
-                    }
+                    Console.Write(". "); //■
                 }
-                if (row == 0)
+                if ((x + 1) % 10 == 0)
                 {
                     Console.WriteLine();
+                    if (x/10<9 && x!=0) Console.Write((char)(66+x/10)+" |");
                 }
             }
-
         }
-        public void CoordinateInput()
+      public void CountNeighbours()
         {
-
-            //int X_input = 0;
-            //int Y_input = 0;
-            //Console.WriteLine($"\nEnter the coordinates (letter + number): ");
-            //string playerInput = Console.ReadLine();
-            //Console.WriteLine($"You entered: {playerInput}");
-            //int X_input = 0;
-            //int Y_input = 0;
-            int row = 0;
-            int column = 0;
-            Console.WriteLine("Enter the X coordinate: ");
-            string resultX;
-            resultX = Console.ReadLine();
-            int X_input;
-            X_input = Convert.ToInt32(resultX);
-            row = X_input;
-            //Console.WriteLine("You entered:{0}", X_input);
-
-            Console.WriteLine("Enter the Y coordinate: ");
-            string resultY;
-            resultY = Console.ReadLine();
-            int Y_input;
-            Y_input = Convert.ToInt32(resultY);
-            column = Y_input;
-            //Console.WriteLine("You entered:{0}", Y_input);
-
-
-            if (cells[row, column].isUncovered == true)
+            for (int row = 0; row < boardSize; row++)
             {
-                Console.SetCursorPosition(row, column);
-                Console.WriteLine(".");
-            }
-            if (cells[row, column].hasMine)
-            {
-                Console.SetCursorPosition(row, column);
-                Console.WriteLine("■");
-            }
-           
-           else
-            {
-                Console.SetCursorPosition(row, column);
-                Console.WriteLine($"{cells[row, column].neighbourBombs}");
-            }
 
+                for (int column = 0; column < boardSize; column++)
+                {
+                    if (cells[row, column].hasMine) {
+                        continue;
+                    }
+
+                    int mineCount = 0;
+
+                    if (row!=0 && column!=0 && cells[row - 1, column - 1].hasMine)
+                    {
+                        mineCount++;
+                    }
+                    if (row != 0 && cells[row - 1, column].hasMine)
+                    {
+                        mineCount++;
+                    }
+                    if (row!=0 && column!= boardSize-1 && cells[row - 1, column + 1].hasMine)
+                    {
+                        mineCount++;
+                    }
+                    if (column!=0 && cells[row, column - 1].hasMine)
+                    {
+                        mineCount++;
+                    }
+                    if (column!= boardSize - 1 && cells[row, column + 1].hasMine)
+                    {
+                        mineCount++;
+                    }
+                    if (row!= boardSize - 1 && column!=0 && cells[row + 1, column - 1].hasMine)
+                    {
+                        mineCount++;
+                    }
+                    if (row != boardSize - 1 && cells[row + 1, column].hasMine)
+                    {
+                        mineCount++;
+                    }
+                    if (row != boardSize - 1 && column != boardSize-1 && cells[row + 1, column + 1].hasMine)
+                    {
+                        mineCount++;
+                    }
+                    cells[row, column].neighbourBombs = mineCount;
+                }
+            }
         }
-        public void Coordinates()
+        public void PrintingTheBoard(bool isMineHit)
         {
+            Console.WriteLine("   0 1 2 3 4 5 6 7 8 9");
+            Console.WriteLine("   -------------------");
+
+            for (int row = 0; row < boardSize; row++)
+            {
+                Console.Write((char)(row+65)+" |");
+                for (int column = 0; column < boardSize; column++)
+                {
+                    if (isMineHit && cells[row, column].hasMine) {
+                        Console.Write("@ ");
+                        continue;
+                    }
+
+                    if (cells[row, column].isUncovered) {
+                        Console.Write(cells[row, column].neighbourBombs+" ");
+                        continue;
+                    }
+
+                    Console.Write("# ");
+                }
+                Console.WriteLine(); // \n
+            }
+        }
+
+        public bool chooseCell(int[] cell) {
+            cells[cell[0], cell[1]].isUncovered = true;
+
+            return cells[cell[0], cell[1]].hasMine;
+        }
+
+        public bool hasWonGame() {
+            bool hasWon=true;
+            int uncoveredCellCount=0;
             for (int row = 0; row < boardSize; row++)
             {
                 for (int column = 0; column < boardSize; column++)
                 {
-                    Console.WriteLine("Enter the X coordinate: ");
-                    //string resultX;
-                    //resultX = Console.ReadLine();
-                    int X_input;
-                    X_input = Convert.ToInt32(Console.ReadLine());
-                    row = X_input;
-                    Console.WriteLine("You entered:{0}", X_input);
-
-                    Console.WriteLine("Enter the Y coordinate: ");
-                    //string resultY;
-                    //resultY = Console.ReadLine();
-                    int Y_input;
-                    Y_input = Convert.ToInt32(Console.ReadLine()); ;
-                    column = Y_input;
-                    Console.WriteLine("You entered:{0}", Y_input);
-                    continue;
-
+                    if (!cells[row, column].hasMine && cells[row, column].isUncovered)
+                    {
+                        uncoveredCellCount++;
+                    }
                 }
-
             }
-
-            //public void IsUncovered()
-            //{
-            //        int row = 0;
-            //        int column = 0;
-
-            //        if (cells[row, column].isUncovered)
-            //        {
-            //            Console.Write(".");
-            //        }
-            //        if (cells[row, column].hasMine)
-            //        {
-            //            Console.Write("■");
-            //        }
-            //        else if (!(row == 0) && !(column == 0))
-            //        {
-            //            Console.Write($"{cells[row, column].neighbourBombs}");
-            //        }
-
-            //    }
-
-            //}
-
-
+            if (uncoveredCellCount < 90)
+            {
+                hasWon = false;
+            }
+            return hasWon;
         }
     }
-}
 
+}
